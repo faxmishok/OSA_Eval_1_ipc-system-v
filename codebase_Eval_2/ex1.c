@@ -24,22 +24,12 @@ void *counter(void *argp) {
     
     while (counter < 10) {
         ts.tv_nsec = (((double)rand()) / RAND_MAX) * 1000000000;
-       
-       // printf("After %ld nanoseconds of sleep ",ts.tv_nsec);
-
         nanosleep(&ts, NULL);
-       // pthread_mutex_lock(&lock);
         printf("After %ld nanoseconds of sleep %dth thread at counter %d\n",ts.tv_nsec, *thread_number , counter);
-        //pthread_mutex_unlock(&lock);
-       
         counter++;
-       
     }
-
     printf("I am thread number %d and i am done\n",mynum);
-
     return NULL;
-    
 }
 
 int main () {
@@ -49,22 +39,12 @@ int main () {
     scanf("%d", &n);
 
     pthread_t thread_id[n];
-
-
     for (int i = 0; i < n; i++) {
-        
          pthread_create(&thread_id[i], NULL, counter, &thread_id[i]);
-       // pthread_create(&thread_id[i], NULL, counter, &i);
-
     }
-
     for (int i = 0; i < n; i++) {
         pthread_join(thread_id[i], NULL);
 
     }
-
-   //  pthread_join(thread_id[n-1], NULL);
-    
-    
     return 0; 
 }
