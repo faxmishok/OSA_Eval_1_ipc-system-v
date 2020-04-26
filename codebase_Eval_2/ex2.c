@@ -10,8 +10,6 @@ pthread_mutex_t lock;
 
 void *function(pthread_t *th) { //a pointer function for demands of pthread_create() function
 
-    printf(" My ThreadID is %d \n",(int*)th);
-
     pthread_mutex_lock(&lock);      //to intervene another thread get past this line, if it does then fakeIdThread numbers will get mixed
     
     int whichThread = ++fakeIdThread;
@@ -51,6 +49,11 @@ void *function(pthread_t *th) { //a pointer function for demands of pthread_crea
 }
 
 int main (int argc, char *argv[]) {
+    
+    if (pthread_mutex_init(&lock, NULL) != 0) { 
+        printf("\n mutex init has failed\n"); 
+        return 1; 
+    }
     
     int nThread;
     printf("Enter the number of threads you want to generate: ");
