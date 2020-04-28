@@ -4,7 +4,7 @@
 #include <time.h>
 
 
-void *function(void *arg) { //a pointer function for demands of pthread_create() function
+void *increment(void *arg) { //a pointer function for demands of pthread_create() function
     
     struct timespec ts;
     srand(time(NULL)); // to get completely random numbers from rand() each time.If we don't bind it to time() rand() will return the same numbers 
@@ -30,22 +30,15 @@ int main (int argc, char *argv[]) {
     scanf("%d",&nThread);
 
     int th_number[nThread];
-    for ( int i = 0 ; i < nThread ; i++) {
-        th_number[i] = i+1;
-    }   // Since i value inside for loop is an int and we can't send an int as argument to 
-    // pthread_create, i'm declaring an array of integers which can be dereferenced by adding
-    // & sign in the beginning. 
-
+    for ( int i = 0 ; i < nThread ; i++) {  th_number[i] = i+1; }  
     pthread_t tids[nThread]; //array of pthread_t to store threads and do further operations
     
     for (int i = 0 ; i < nThread ; i++) {
-        pthread_create(&tids[i], NULL, &function, &th_number[i]);
+        pthread_create(&tids[i], NULL, &increment,&th_number[i]);
     }   
-
     for (int i = 0 ; i < nThread ; i++) {
         pthread_join(tids[i], NULL);
     }
     
-
     return 0; 
 }
